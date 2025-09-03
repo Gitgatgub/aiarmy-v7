@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(/Users/richardwilliams/Desktop/**)",
+      "Read(/Users/richardwilliams/Desktop/**)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
