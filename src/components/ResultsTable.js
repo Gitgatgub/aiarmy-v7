@@ -82,6 +82,7 @@ function ResultsTable({ results }) {
       setIsCallLoading(true);
       setCurrentBusiness(business);
       setShowCallInterface(true);
+      console.log('DEBUG: showCallInterface set to true, currentBusiness:', business.businessName);
       await startCall(business.businessName, business.telephoneNumber);
       setActiveCall(business.businessName);
     } catch (error) {

@@ -3,6 +3,7 @@ import AudioVisualizer from './AudioVisualizer';
 import { endCall } from '../services/vapiService';
 
 const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
+  console.log('CallInterface render - isOpen:', isOpen);
   const [volumeLevel, setVolumeLevel] = useState(0);
   const [callStatus, setCallStatus] = useState('connecting');
 
@@ -70,6 +71,8 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
         return 'Initializing...';
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="call-interface-overlay">
