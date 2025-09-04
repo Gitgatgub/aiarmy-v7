@@ -72,8 +72,6 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
     }
   };
 
-  if (!isOpen) return null;
-
   return (
     <div className="call-interface-overlay">
       <div className="call-interface-modal">
