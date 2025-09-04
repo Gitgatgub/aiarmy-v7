@@ -71,6 +71,7 @@ function ResultsTable({ results }) {
   };
 
   const handleStartCall = async (business) => {
+    console.log("=== DEBUG LOG 1: Starting call flow ===");
     try {
       if (activeCall === business.businessName) {
         endCall();
@@ -81,9 +82,12 @@ function ResultsTable({ results }) {
       }
       setIsCallLoading(true);
       setCurrentBusiness(business);
+      console.log("=== DEBUG LOG 2: Setting showCallInterface to true ===");
       setShowCallInterface(true);
-      console.log('DEBUG: showCallInterface set to true, currentBusiness:', business.businessName);
+      console.log("=== DEBUG LOG 3: Current showCallInterface value:", showCallInterface, "===");
+      console.log("=== DEBUG LOG 4: Calling startCall API ===");
       await startCall(business.businessName, business.telephoneNumber);
+      console.log("=== DEBUG LOG 5: Call API completed ===");
       setActiveCall(business.businessName);
     } catch (error) {
       console.error('Error handling call:', error);

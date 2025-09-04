@@ -5,7 +5,8 @@
       "Read(/Users/richardwilliams/Desktop/**)",
       "Bash(cd:*)",
       "Bash(cd:*)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Read(//Users/richardwilliams/Desktop/**)"
     ],
     "deny": [],
     "ask": []

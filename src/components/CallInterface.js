@@ -3,11 +3,16 @@ import AudioVisualizer from './AudioVisualizer';
 import { endCall } from '../services/vapiService';
 
 const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
-  console.log('CallInterface render - isOpen:', isOpen);
+  console.log("=== CALLINTERFACE DEBUG ===");
+  console.log("Props received:", {isOpen, onClose, businessName});
+  console.log("Component rendering, isOpen:", isOpen);
   const [volumeLevel, setVolumeLevel] = useState(0);
   const [callStatus, setCallStatus] = useState('connecting');
+  
+  console.log("callStatus changed to:", callStatus);
 
   useEffect(() => {
+    console.log("useEffect triggered, isOpen:", isOpen);
     if (!isOpen) return;
 
     const vapi = window.vapi;
@@ -18,10 +23,12 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
     };
 
     const handleCallStart = () => {
+      console.log("callStatus changed to: connected");
       setCallStatus('connected');
     };
 
     const handleCallEnd = () => {
+      console.log("callStatus changed to: ended");
       setCallStatus('ended');
       setTimeout(() => {
         onClose();
@@ -72,6 +79,7 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
     }
   };
 
+  console.log("About to return JSX, isOpen:", isOpen);
   return (
     <div className="call-interface-overlay">
       <div className="call-interface-modal">
