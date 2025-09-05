@@ -22,8 +22,8 @@ const AudioVisualizer = ({ volumeLevel = 0 }) => {
       bars.forEach((barHeight, index) => {
         const x = index * barWidth + barWidth * 0.1;
         const actualBarWidth = barWidth * 0.8;
-        const y = height - (barHeight * height * 0.8);
-        const actualHeight = barHeight * height * 0.8;
+        const y = height - (barHeight * height * 0.95);
+        const actualHeight = barHeight * height * 0.95;
 
         const gradient = ctx.createLinearGradient(0, y, 0, y + actualHeight);
         gradient.addColorStop(0, '#00FFA3');
@@ -80,8 +80,8 @@ const AudioVisualizer = ({ volumeLevel = 0 }) => {
     bars.forEach((barHeight, index) => {
       const x = index * barWidth + barWidth * 0.1;
       const actualBarWidth = barWidth * 0.8;
-      const y = height - (barHeight * height * 0.8);
-      const actualHeight = barHeight * height * 0.8;
+      const y = height - (barHeight * height * 0.95);
+      const actualHeight = barHeight * height * 0.95;
 
       const gradient = ctx.createLinearGradient(0, y, 0, y + actualHeight);
       gradient.addColorStop(0, '#00FFA3');
@@ -97,8 +97,8 @@ const AudioVisualizer = ({ volumeLevel = 0 }) => {
       <canvas 
         ref={canvasRef}
         width={300}
-        height={100}
-        style={{ width: '100%', height: '100px' }}
+        height={200}
+        style={{ width: '100%', height: '200px' }}
       />
     </div>
   );
