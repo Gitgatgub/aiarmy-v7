@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 
 const AudioVisualizer = ({ volumeLevel = 0 }) => {
-  console.log('AudioVisualizer - volumeLevel prop:', volumeLevel);
   const canvasRef = useRef(null);
   const animationRef = useRef();
   const [bars, setBars] = useState(Array(15).fill(0.1));
@@ -16,7 +15,6 @@ const AudioVisualizer = ({ volumeLevel = 0 }) => {
     const barWidth = width / 15;
 
     const animate = () => {
-      console.log('Drawing bars - bar heights:', bars);
       ctx.clearRect(0, 0, width, height);
 
       bars.forEach((barHeight, index) => {
@@ -46,10 +44,6 @@ const AudioVisualizer = ({ volumeLevel = 0 }) => {
   }, [bars]);
 
   useEffect(() => {
-    if (volumeLevel === 0) return; // Don't animate when silent
-    
-    console.log('Updating bars array with volumeLevel:', volumeLevel);
-    console.log('Current bars state:', bars);
     
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -70,8 +64,8 @@ const AudioVisualizer = ({ volumeLevel = 0 }) => {
         const barHeight = Math.random() * canvas.height * targetMultiplier;
         const normalizedHeight = barHeight / canvas.height;
         
-        // Use faster smoothing for real volume data
-        const smoothingFactor = volumeLevel > 0.05 ? 0.6 : 0.4;
+        // Use consistent smoothing for continuous animation
+        const smoothingFactor = 0.1;
         return currentHeight + (normalizedHeight - currentHeight) * smoothingFactor;
       })
     );

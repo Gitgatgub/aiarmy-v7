@@ -3,16 +3,10 @@ import AudioVisualizer from './AudioVisualizer';
 import { endCall } from '../services/vapiService';
 
 const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
-  console.log("=== CALLINTERFACE DEBUG ===");
-  console.log("Props received:", {isOpen, onClose, businessName});
-  console.log("Component rendering, isOpen:", isOpen);
   const [volumeLevel, setVolumeLevel] = useState(0);
   const [callStatus, setCallStatus] = useState('connecting');
-  
-  console.log("callStatus changed to:", callStatus);
 
   useEffect(() => {
-    console.log("useEffect triggered, isOpen:", isOpen);
     if (!isOpen) return;
 
     const vapi = window.vapi;
@@ -24,12 +18,10 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
     };
 
     const handleCallStart = () => {
-      console.log("callStatus changed to: connected");
       setCallStatus('connected');
     };
 
     const handleCallEnd = () => {
-      console.log("callStatus changed to: ended");
       setCallStatus('ended');
       setTimeout(() => {
         onClose();
@@ -41,16 +33,10 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
     window.addEventListener('vapi:call-end', handleCallEnd);
     window.addEventListener('vapiCallEnded', handleCallEnd);
 
-    console.log('Mock animation setup - callStatus:', callStatus);
-    console.log('Setting up mock animation interval');
     const mockVolumeAnimation = setInterval(() => {
       const newVolume = Math.random() * 0.8 + 0.2;
-      console.log('Mock animation running - setting volume to:', newVolume);
-      setVolumeLevel(prev => newVolume);
-      console.log('volumeLevel state updated to:', newVolume);
+      setVolumeLevel(newVolume);
     }, 100);
-    console.log('Mock interval started');
-    console.log('Mock interval created:', mockVolumeAnimation);
 
     return () => {
       window.removeEventListener('vapi:volume-level', handleVolumeLevel);
@@ -103,7 +89,6 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
     }
   };
 
-  console.log("About to return JSX, isOpen:", isOpen);
   return (
     <div className="call-interface-overlay">
       <div className="call-interface-modal">
