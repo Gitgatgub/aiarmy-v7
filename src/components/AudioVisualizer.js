@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 
 const AudioVisualizer = ({ volumeLevel = 0 }) => {
+  console.log('AudioVisualizer - volumeLevel prop:', volumeLevel);
   const canvasRef = useRef(null);
   const animationRef = useRef();
   const [bars, setBars] = useState(Array(15).fill(0.1));
@@ -15,6 +16,7 @@ const AudioVisualizer = ({ volumeLevel = 0 }) => {
     const barWidth = width / 15;
 
     const animate = () => {
+      console.log('Drawing bars - bar heights:', bars);
       ctx.clearRect(0, 0, width, height);
 
       bars.forEach((barHeight, index) => {
@@ -44,6 +46,8 @@ const AudioVisualizer = ({ volumeLevel = 0 }) => {
   }, [bars]);
 
   useEffect(() => {
+    console.log('Updating bars array with volumeLevel:', volumeLevel);
+    console.log('Current bars state:', bars);
     const targetHeight = Math.max(0.1, Math.min(1, volumeLevel));
     
     setBars(prevBars => 

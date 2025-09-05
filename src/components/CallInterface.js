@@ -41,11 +41,16 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
     window.addEventListener('vapi:call-end', handleCallEnd);
     window.addEventListener('vapiCallEnded', handleCallEnd);
 
+    console.log('Mock animation setup - callStatus:', callStatus);
     const mockVolumeAnimation = setInterval(() => {
       if (callStatus === 'connecting' || callStatus === 'connected') {
-        setVolumeLevel(Math.random() * 0.8 + 0.2);
+        const newVolume = Math.random() * 0.8 + 0.2;
+        console.log('Mock animation running - setting volume to:', newVolume);
+        setVolumeLevel(newVolume);
+        console.log('volumeLevel state updated to:', newVolume);
       }
     }, 100);
+    console.log('Mock interval created:', mockVolumeAnimation);
 
     return () => {
       window.removeEventListener('vapi:volume-level', handleVolumeLevel);
