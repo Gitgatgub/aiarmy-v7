@@ -62,7 +62,7 @@ const AudioVisualizer = ({ volumeLevel = 0 }) => {
         return currentHeight + (maxHeight - currentHeight) * smoothingFactor;
       })
     );
-  }, [volumeLevel]);
+  }, [volumeLevel, bars]);
 
   return (
     <div className="audio-visualizer">
