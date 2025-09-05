@@ -75,7 +75,7 @@ const AudioVisualizer = ({ volumeLevel = 0 }) => {
         return currentHeight + (normalizedHeight - currentHeight) * smoothingFactor;
       })
     );
-  }, [volumeLevel]);
+  }, [volumeLevel, bars]);
 
   // Direct canvas update useEffect for immediate response
   useEffect(() => {
