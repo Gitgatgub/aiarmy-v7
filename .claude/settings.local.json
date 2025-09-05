@@ -6,7 +6,9 @@
       "Bash(cd:*)",
       "Bash(cd:*)",
       "Bash(cd:*)",
-      "Read(//Users/richardwilliams/Desktop/**)"
+      "Read(//Users/richardwilliams/Desktop/**)",
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)"
     ],
     "deny": [],
     "ask": []

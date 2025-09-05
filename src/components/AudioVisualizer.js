@@ -48,11 +48,13 @@ const AudioVisualizer = ({ volumeLevel = 0 }) => {
     
     setBars(prevBars => 
       prevBars.map((currentHeight, index) => {
-        const randomVariation = (Math.random() - 0.5) * 0.3;
+        // Add variation to make bars look more natural
+        const randomVariation = (Math.random() - 0.5) * 0.2 * targetHeight;
         const baseHeight = targetHeight + randomVariation;
         const maxHeight = Math.max(0.1, Math.min(1, baseHeight));
         
-        const smoothingFactor = 0.3;
+        // Use faster smoothing for real volume data (higher values indicate more responsive movement)
+        const smoothingFactor = volumeLevel > 0.05 ? 0.4 : 0.3;
         return currentHeight + (maxHeight - currentHeight) * smoothingFactor;
       })
     );

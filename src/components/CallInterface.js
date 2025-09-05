@@ -8,6 +8,7 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
   console.log("Component rendering, isOpen:", isOpen);
   const [volumeLevel, setVolumeLevel] = useState(0);
   const [callStatus, setCallStatus] = useState('connecting');
+  const [hasRealVolumeData, setHasRealVolumeData] = useState(false);
   
   console.log("callStatus changed to:", callStatus);
 
@@ -19,7 +20,9 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
     if (!vapi) return;
 
     const handleVolumeLevel = (event) => {
-      setVolumeLevel(event.detail.volume || 0);
+      const volume = event.detail.volume || 0;
+      setVolumeLevel(volume);
+      setHasRealVolumeData(true);
     };
 
     const handleCallStart = () => {
@@ -41,7 +44,7 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
     window.addEventListener('vapiCallEnded', handleCallEnd);
 
     const mockVolumeAnimation = setInterval(() => {
-      if (callStatus === 'connected') {
+      if (callStatus === 'connected' && !hasRealVolumeData) {
         setVolumeLevel(Math.random() * 0.8 + 0.2);
       }
     }, 100);
@@ -53,7 +56,7 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
       window.removeEventListener('vapiCallEnded', handleCallEnd);
       clearInterval(mockVolumeAnimation);
     };
-  }, [isOpen, callStatus, onClose]);
+  }, [isOpen, callStatus, onClose, hasRealVolumeData]);
 
   const handleEndCall = () => {
     endCall();
@@ -63,7 +66,25 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
   if (!isOpen) return null;
 
   const getAvatarImage = (businessInfo) => {
-    return '/AVATARS/avatar5.png';
+    // Check if businessInfo has voice data
+    const voiceId = businessInfo?.voiceId || businessInfo?.voice?.id || businessInfo?.voice;
+    
+    // List of male and female voice IDs
+    const maleVoices = ['Harry', 'Rohan', 'Guy', 'Davis', 'Tony', 'Ryan', 'Elliot'];
+    const femaleVoices = ['Aria', 'Jenny', 'Sara', 'Savannah', 'Paige', 'Hana'];
+    
+    const isMaleVoice = voiceId && maleVoices.includes(voiceId);
+    const isFemaleVoice = voiceId && femaleVoices.includes(voiceId);
+    
+    // Return avatar based on voice gender
+    if (isMaleVoice) {
+      return '/AVATARS/avatar2.png';
+    } else if (isFemaleVoice) {
+      return '/AVATARS/avatar5.png';
+    } else {
+      // Default to female avatar for unknown voices
+      return '/AVATARS/avatar5.png';
+    }
   };
 
   const getStatusText = () => {
