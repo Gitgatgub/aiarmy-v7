@@ -8,7 +8,6 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
   console.log("Component rendering, isOpen:", isOpen);
   const [volumeLevel, setVolumeLevel] = useState(0);
   const [callStatus, setCallStatus] = useState('connecting');
-  const [hasRealVolumeData, setHasRealVolumeData] = useState(false);
   
   console.log("callStatus changed to:", callStatus);
 
@@ -22,7 +21,6 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
     const handleVolumeLevel = (event) => {
       const volume = event.detail.volume || 0;
       setVolumeLevel(volume);
-      setHasRealVolumeData(true);
     };
 
     const handleCallStart = () => {
@@ -44,7 +42,7 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
     window.addEventListener('vapiCallEnded', handleCallEnd);
 
     const mockVolumeAnimation = setInterval(() => {
-      if (callStatus === 'connected' && !hasRealVolumeData) {
+      if (callStatus === 'connected') {
         setVolumeLevel(Math.random() * 0.8 + 0.2);
       }
     }, 100);
@@ -56,7 +54,7 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
       window.removeEventListener('vapiCallEnded', handleCallEnd);
       clearInterval(mockVolumeAnimation);
     };
-  }, [isOpen, callStatus, onClose, hasRealVolumeData]);
+  }, [isOpen, callStatus, onClose]);
 
   const handleEndCall = () => {
     endCall();
@@ -82,8 +80,8 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
     } else if (isFemaleVoice) {
       return '/AVATARS/avatar5.png';
     } else {
-      // Default to female avatar for unknown voices
-      return '/AVATARS/avatar5.png';
+      // Default to male avatar for unknown voices
+      return '/AVATARS/avatar2.png';
     }
   };
 
