@@ -42,14 +42,14 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
     window.addEventListener('vapiCallEnded', handleCallEnd);
 
     console.log('Mock animation setup - callStatus:', callStatus);
+    console.log('Setting up mock animation interval');
     const mockVolumeAnimation = setInterval(() => {
-      if (callStatus === 'connecting' || callStatus === 'connected') {
-        const newVolume = Math.random() * 0.8 + 0.2;
-        console.log('Mock animation running - setting volume to:', newVolume);
-        setVolumeLevel(newVolume);
-        console.log('volumeLevel state updated to:', newVolume);
-      }
+      const newVolume = Math.random() * 0.8 + 0.2;
+      console.log('Mock animation running - setting volume to:', newVolume);
+      setVolumeLevel(prev => newVolume);
+      console.log('volumeLevel state updated to:', newVolume);
     }, 100);
+    console.log('Mock interval started');
     console.log('Mock interval created:', mockVolumeAnimation);
 
     return () => {

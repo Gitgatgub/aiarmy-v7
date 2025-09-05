@@ -78,8 +78,9 @@ export const startCall = async (businessName, phoneNumber) => {
       }
     }, 5000); // Check every 5 seconds
     
-    // Store interval ID so we can clear it if needed
+    // Store interval ID and call ID so we can clear/end them if needed
     window.vapiCallInterval = checkCallStatus;
+    window.vapiCallId = data.id;
     
     return data;
     
@@ -89,11 +90,43 @@ export const startCall = async (businessName, phoneNumber) => {
   }
 };
 
-export const endCall = () => {
-  // Clear the status check interval if it exists
-  if (window.vapiCallInterval) {
-    clearInterval(window.vapiCallInterval);
-    window.vapiCallInterval = null;
+export const endCall = async () => {
+  try {
+    // Actually end the Vapi call if we have a call ID
+    if (window.vapiCallId) {
+      const settings = JSON.parse(localStorage.getItem('userSettings') || '{}');
+      
+      if (settings.vapiKey) {
+        const response = await fetch(`https://api.vapi.ai/call/${window.vapiCallId}`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${settings.vapiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            status: 'ended'
+          })
+        });
+        
+        if (response.ok) {
+          console.log('Vapi call terminated successfully');
+        } else {
+          console.error('Failed to terminate Vapi call:', await response.text());
+        }
+      }
+      
+      window.vapiCallId = null;
+    }
+    
+    // Clear the status check interval if it exists
+    if (window.vapiCallInterval) {
+      clearInterval(window.vapiCallInterval);
+      window.vapiCallInterval = null;
+    }
+    
+    console.log('Call ended and monitoring stopped');
+    
+  } catch (error) {
+    console.error('Error ending call:', error);
   }
-  console.log('Call monitoring stopped');
 };
