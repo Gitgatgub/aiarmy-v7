@@ -46,23 +46,36 @@ const AudioVisualizer = ({ volumeLevel = 0 }) => {
   }, [bars]);
 
   useEffect(() => {
+    if (volumeLevel === 0) return; // Don't animate when silent
+    
     console.log('Updating bars array with volumeLevel:', volumeLevel);
     console.log('Current bars state:', bars);
-    const targetHeight = Math.max(0.1, Math.min(1, volumeLevel));
+    
+    const canvas = canvasRef.current;
+    if (!canvas) return;
     
     setBars(prevBars => 
       prevBars.map((currentHeight, index) => {
-        // Add variation to make bars look more natural
-        const randomVariation = (Math.random() - 0.5) * 0.2 * targetHeight;
-        const baseHeight = targetHeight + randomVariation;
-        const maxHeight = Math.max(0.1, Math.min(1, baseHeight));
+        // Create wave pattern with varying heights
+        let targetMultiplier;
+        const wavePosition = index % 5;
+        if (wavePosition < 2) {
+          targetMultiplier = 0.8; // Tall bars (80% height)
+        } else if (wavePosition < 4) {
+          targetMultiplier = 0.5; // Medium bars (50% height)
+        } else {
+          targetMultiplier = 0.3; // Short bars (30% height)
+        }
         
-        // Use faster smoothing for real volume data (higher values indicate more responsive movement)
-        const smoothingFactor = volumeLevel > 0.05 ? 0.4 : 0.3;
-        return currentHeight + (maxHeight - currentHeight) * smoothingFactor;
+        const barHeight = Math.random() * canvas.height * targetMultiplier;
+        const normalizedHeight = barHeight / canvas.height;
+        
+        // Use faster smoothing for real volume data
+        const smoothingFactor = volumeLevel > 0.05 ? 0.6 : 0.4;
+        return currentHeight + (normalizedHeight - currentHeight) * smoothingFactor;
       })
     );
-  }, [volumeLevel, bars]);
+  }, [volumeLevel]);
 
   // Direct canvas update useEffect for immediate response
   useEffect(() => {
@@ -97,8 +110,8 @@ const AudioVisualizer = ({ volumeLevel = 0 }) => {
       <canvas 
         ref={canvasRef}
         width={300}
-        height={200}
-        style={{ width: '100%', height: '200px' }}
+        height={150}
+        style={{ width: '100%', height: '150px' }}
       />
     </div>
   );
