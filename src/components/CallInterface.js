@@ -42,7 +42,7 @@ const CallInterface = ({ isOpen, onClose, businessName, businessInfo }) => {
     window.addEventListener('vapiCallEnded', handleCallEnd);
 
     const mockVolumeAnimation = setInterval(() => {
-      if (callStatus === 'connected') {
+      if (callStatus === 'connecting' || callStatus === 'connected') {
         setVolumeLevel(Math.random() * 0.8 + 0.2);
       }
     }, 100);
